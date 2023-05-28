@@ -17,7 +17,7 @@ let room,
   thristVeryThristy,
   cursorPressed;
 let font;
-let backgroundSound;
+let backgroundSound, buttonSound;
 
 //classes
 let tamagotchi;
@@ -103,7 +103,9 @@ function preload() {
   thristNotThirsty = loadImage(`${host}assets/images/thirst_notthirsty.png`);
 
   //sound
+  soundFormats('mp3', 'ogg');
   backgroundSound = loadSound(`${host}assets/sounds/background.mp3`);
+  buttonSound = loadSound(`${host}assets/sounds/sfxbutton.mp3`);
 }
 
 function setup() {
@@ -122,6 +124,8 @@ function setup() {
   document.oncontextmenu = function () {
     return false;
   };
+  getAudioContext().suspend();
+  userStartAudio();
   backgroundSound.play();
 }
 
@@ -181,6 +185,7 @@ function draw() {
 }
 
 function mouseClicked() {
+  buttonSound.play();
   if (mouseX < width && mouseY < height) {
     statusTamagotchiText.clear();
     bedCollider() ||
