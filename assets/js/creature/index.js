@@ -1,8 +1,9 @@
 class Character {
   constructor(name) {
     this.energy = 100;
-    this.hungry = false;
-    this.poop = false;
+    this.eating = false;
+    this.drinking = false;
+    this.pooping = false;
     this.asleep = false;
     this.name = name;
     this.needToPoop = 0;
@@ -27,8 +28,38 @@ class Character {
   checkStatus() {
     if (this.asleep && this.energy < 100) {
       this.energy += 1;
+      this.needToDrink += 1;
+      this.needToEat += 1;
+      this.needToPoop += 1;
     }
-    return { energy: this.energy };
+    if (this.eating) {
+      if (this.needToEat) {
+        this.needToEat -= 1;
+        this.needToPoop += 1;
+      }
+      if (this.energy < 100) {
+        this.energy += 1;
+      }
+    }
+    if (this.drinking) {
+      if (this.needToDrink) {
+        this.needToDrink -= 1;
+      }
+      if (this.energy < 100) {
+        this.energy += 1;
+      }
+    }
+
+    if (this.pooping) {
+      if (this.needToPoop) {
+        this.needToPoop -= 1;
+        this.needToEat += 1;
+      }
+      if (this.energy < 100) {
+        this.energy += 1;
+      }
+    }
+    return this.energy;
   }
 
   move(x, y) {
@@ -37,13 +68,23 @@ class Character {
     return { x: this.x, y: this.y };
   }
 
-  sleep() {
-    this.asleep = true;
+  sleep(status) {
+    this.asleep = status;
     return this.asleep;
   }
 
-  awake() {
-    this.asleep = false;
-    return this.asleep;
+  eat(status) {
+    this.eating = status;
+    return this.eating;
+  }
+
+  drink(status) {
+    this.drinking = status;
+    return this.drinking;
+  }
+
+  poop(status) {
+    this.pooping = status;
+    return this.pooping;
   }
 }

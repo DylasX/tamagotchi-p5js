@@ -103,7 +103,7 @@ function preload() {
 }
 
 function setup() {
-  //frameRate(5);
+  frameRate(20);
   noCursor();
   createCanvas(width, height);
   characterAnimation = loadAnimation(
@@ -111,7 +111,7 @@ function setup() {
     `${host}assets/images/sit.png`
   );
   sleepingAnimation = loadAnimation(`${host}assets/images/sleeping.png`);
-  characterAnimation.frameDelay = 35;
+  characterAnimation.frameDelay = 15;
   statusTamagotchiText = new MessageSystem();
   tamagotchi = new Character('Kikitchi');
   document.oncontextmenu = function () {
@@ -165,12 +165,23 @@ function draw() {
   //tamagotchiStatusCheck
   //if it's asleep
   tamagotchi.checkStatus();
+  if (tamagotchi.energy <= 20) {
+    textSize(3);
+    textFont(font);
+    fill(255);
+    stroke(100);
+    text('Zzz...', tamagotchi.x + 5, tamagotchi.y - 10);
+  }
 }
 
 function mouseClicked() {
   if (mouseX < width && mouseY < height) {
     statusTamagotchiText.clear();
-    bedCollider() || defaultPosition();
+    bedCollider() ||
+      fridgeCollider() ||
+      toiletCollider() ||
+      sinkCollider() ||
+      defaultPosition();
   }
 }
 
@@ -268,16 +279,76 @@ const defaultPosition = () => {
 const bedCollider = () => {
   if (
     dist(mouseX, mouseY, elementPositions.bed.x, elementPositions.bed.y) <=
-    interactivityThreshold
+    interactivityThreshold - 10
   ) {
     tamagotchi.move(elementPositions.bed.x + 15, elementPositions.bed.y + 10);
-    tamagotchi.sleep();
+    tamagotchi.sleep(true);
     statusTamagotchiText.setMessage('Sleeping...');
     characterAnimation.stop(1);
     sleepingAnimation.play();
     return true;
   }
-  tamagotchi.awake();
+  tamagotchi.sleep(false);
   sleepingAnimation.stop();
+  return false;
+};
+
+const fridgeCollider = () => {
+  if (
+    dist(
+      mouseX,
+      mouseY,
+      elementPositions.fridge.x,
+      elementPositions.fridge.y
+    ) <=
+    interactivityThreshold - 10
+  ) {
+    tamagotchi.eat(true);
+    tamagotchi.move(
+      elementPositions.fridge.x + 15,
+      elementPositions.fridge.y + 40
+    );
+    statusTamagotchiText.setMessage('Eating...');
+    return true;
+  }
+  tamagotchi.eat(false);
+  return false;
+};
+
+const sinkCollider = () => {
+  if (
+    dist(mouseX, mouseY, elementPositions.sink.x, elementPositions.sink.y) <=
+    interactivityThreshold - 10
+  ) {
+    tamagotchi.drink(true);
+    tamagotchi.move(elementPositions.sink.x + 10, elementPositions.sink.y + 10);
+    statusTamagotchiText.setMessage('Drinking...');
+    return true;
+  }
+  tamagotchi.drink(false);
+  return false;
+};
+
+const toiletCollider = () => {
+  if (
+    dist(
+      mouseX,
+      mouseY,
+      elementPositions.toilet.x,
+      elementPositions.toilet.y
+    ) <=
+    interactivityThreshold - 10
+  ) {
+    tamagotchi.poop(true);
+    tamagotchi.move(
+      elementPositions.toilet.x + 8,
+      elementPositions.toilet.y + 14
+    );
+    statusTamagotchiText.setMessage('Pooping...');
+    characterAnimation.stop(1);
+    return true;
+  }
+  characterAnimation.play();
+  tamagotchi.poop(false);
   return false;
 };
