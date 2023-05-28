@@ -28,8 +28,8 @@ let sleepingAnimation;
 
 //env vars
 const host = 'https://dylasx.github.io/tamagotchi-p5js/';
-const width = 100;
-const height = 110;
+const width = 130;
+const height = 120;
 const interactivityThreshold = 30;
 
 const elementPositions = {
@@ -38,7 +38,7 @@ const elementPositions = {
     y: 70,
   },
   fridge: {
-    x: 52,
+    x: 73,
     y: -1,
   },
   sink: {
@@ -50,27 +50,27 @@ const elementPositions = {
     y: 16,
   },
   tv: {
-    x: 70,
+    x: 95,
     y: 65,
   },
   necessities: {
     container: {
-      x: 64,
-      y: 97,
+      x: 90,
+      y: 106,
     },
     poop: {
-      x: 88,
-      y: 98,
+      x: 112,
+      y: 106,
       size: 10,
     },
     hungry: {
-      x: 76,
-      y: 98,
+      x: 101,
+      y: 106,
       size: 10,
     },
     thirsty: {
-      x: 64,
-      y: 99,
+      x: 91,
+      y: 107,
       size: 9,
     },
   },
@@ -105,7 +105,8 @@ function preload() {
 function setup() {
   frameRate(20);
   noCursor();
-  createCanvas(width, height);
+  const canvas = createCanvas(width, height);
+  canvas.parent('screenWrapper');
   characterAnimation = loadAnimation(
     `${host}assets/images/idle.png`,
     `${host}assets/images/sit.png`
@@ -279,7 +280,7 @@ const defaultPosition = () => {
 const bedCollider = () => {
   if (
     dist(mouseX, mouseY, elementPositions.bed.x, elementPositions.bed.y) <=
-    interactivityThreshold - 10
+    interactivityThreshold
   ) {
     tamagotchi.move(elementPositions.bed.x + 15, elementPositions.bed.y + 10);
     tamagotchi.sleep(true);
@@ -300,8 +301,7 @@ const fridgeCollider = () => {
       mouseY,
       elementPositions.fridge.x,
       elementPositions.fridge.y
-    ) <=
-    interactivityThreshold - 10
+    ) <= interactivityThreshold
   ) {
     tamagotchi.eat(true);
     tamagotchi.move(
