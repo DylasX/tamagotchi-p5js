@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamagotchi</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.js" integrity="sha512-TU9AWtV5uUZPX8dbBAH8NQF1tSdigPRRT82vllAQ1Ke28puiqLA6ZVKxtUGlgrH6yWFnkKy+sE6luNEGH9ar0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <script src="https://p5play.org/v3/planck.min.js"></script>
+    <script src="https://p5play.org/v3/p5play.js"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<style>
+    #p5play-intro{
+        display: none;
+    }
+
+    #defaultCanvas0{
+       display: flex;
+       justify-content: center;
+       position: relative;
+       margin: 0 auto;
+       margin-top: 25px;
+    }
+
+</style>
+<body>
+    <div id="GBbody">
+        <div id="side">
+            <hr><hr><hr><hr>
+        </div>
+        <div id="com">▲ COMM.</div>
+        <div id="volumeGameboy"></div>
+        <div id="screenWrapper">
+            <div id="screenReflection"></div>
+            <div id="screen"></div>
+            <div id="logo">
+                <span class="logoName"><i>GAME BOY</i></span>
+                <span class="logoModel">
+                    <b>
+                        <span id="c">C</span><span id="o1">O</span><span id="l">L</span><span id="o2">O</span><span id="r">R</span>
+                    </b>
+                </span>
+            </div>
+            <div id="powerLight"></div>
+            <div id="powerSymbols">)))</div>
+            <div id="powerWord">POWER</div>
+        </div>
+        
+        <div id="nintendo">
+            <span>Nintendo</span>
+        </div>
+        
+
+    </div>
+    <script src="./assets/js/creature/index.js"></script>
+    <script src="./assets/js/gameManager/messages/messageSystem.js"></script>
+    <script src="./assets/js/sketch.js"></script>
+</body>
+</html>

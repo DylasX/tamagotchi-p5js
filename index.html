@@ -1,60 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamagotchi</title>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.js" integrity="sha512-TU9AWtV5uUZPX8dbBAH8NQF1tSdigPRRT82vllAQ1Ke28puiqLA6ZVKxtUGlgrH6yWFnkKy+sE6luNEGH9ar0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <script src="https://p5play.org/v3/planck.min.js"></script>
-    <script src="https://p5play.org/v3/p5play.js"></script>
-    <link rel="stylesheet" href="./assets/css/styles.css">
+  <title>Tamagotchi</title>
+  <style>
+    #container {
+      text-align: center;
+      margin-top: 50px;
+    }
+    #stats {
+      font-size: 20px;
+    }
+    #buttons {
+      margin-top: 20px;
+    }
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<style>
-    #p5play-intro{
-        display: none;
-    }
-
-    #defaultCanvas0{
-       display: flex;
-       justify-content: center;
-       position: relative;
-       margin: 0 auto;
-       margin-top: 25px;
-    }
-
-</style>
 <body>
-    <div id="GBbody">
-        <div id="side">
-            <hr><hr><hr><hr>
-        </div>
-        <div id="com">▲ COMM.</div>
-        <div id="volumeGameboy"></div>
-        <div id="screenWrapper">
-            <div id="screenReflection"></div>
-            <div id="screen"></div>
-            <div id="logo">
-                <span class="logoName"><i>GAME BOY</i></span>
-                <span class="logoModel">
-                    <b>
-                        <span id="c">C</span><span id="o1">O</span><span id="l">L</span><span id="o2">O</span><span id="r">R</span>
-                    </b>
-                </span>
-            </div>
-            <div id="powerLight"></div>
-            <div id="powerSymbols">)))</div>
-            <div id="powerWord">POWER</div>
-        </div>
-        
-        <div id="nintendo">
-            <span>Nintendo</span>
-        </div>
-        
+  <div id="container">
+    <h1>Tamagotchi</h1>
+    <div id="stats">
+      <p id="hunger">Hunger: 100</p>
+      <p id="happiness">Happiness: 100</p>
+      <p id="energy">Energy: 100</p>
+    </div>
+    <div id="buttons">
+      <button onclick="tamagotchi.feed()">Feed</button>
+      <button onclick="play()">Play</button>
+      <button onclick="sleep()">Sleep</button>
+      <button onclick="location.href='/tamagotchi.html'" style="display: none;">Magic</button>
 
     </div>
-    <script src="./assets/js/creature/index.js"></script>
-    <script src="./assets/js/gameManager/messages/messageSystem.js"></script>
-    <script src="./assets/js/sketch.js"></script>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    function createTamagotchi(name) {
+        let hunger = 0;
+        let boredom = 0;
+        let sleepiness = 0;
+        let age = 0;
+        let isAlive = true;
+      
+        function checkStatus() {
+          hunger++;
+          boredom++;
+          sleepiness++;
+          age++;
+      
+          if (hunger >= 10 || boredom >= 10 || sleepiness >= 10) {
+            isAlive = false;
+          }
+      
+          console.log(name + " - Age: " + age);
+          console.log("Hunger: " + hunger);
+          console.log("Boredom: " + boredom);
+          console.log("Sleepiness: " + sleepiness);
+      
+          if (!isAlive) {
+            console.log(name + " is no longer alive. RIP.");
+          }
+        }
+      
+        return {
+          feed: function () {
+            if (isAlive) {
+              if (hunger > 0) {
+                hunger--;
+              }
+              console.log("Yum! " + name + " is eating.");
+              checkStatus();
+            } else {
+              console.log(name + " is no longer alive. RIP.");
+            }
+          },
+      
+          play: function () {
+            if (isAlive) {
+              if (boredom > 0) {
+                boredom--;
+              }
+              console.log(name + " is having fun!");
+              checkStatus();
+            } else {
+              console.log(name + " is no longer alive. RIP.");
+            }
+          },
+      
+          sleep: function () {
+            if (isAlive) {
+              if (sleepiness > 0) {
+                sleepiness--;
+              }
+              console.log(name + " is sleeping.");
+              checkStatus();
+            } else {
+              console.log(name + " is no longer alive. RIP.");
+            }
+          },
+        };
+      }
+      
+      const tamagotchi = createTamagotchi("Tama");
+  </script>
 </body>
 </html>
