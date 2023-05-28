@@ -17,7 +17,7 @@ let room,
   thristVeryThristy,
   cursorPressed;
 let font;
-let backgroundSound, buttonSound;
+let backgroundSound, buttonSound, sleepSound;
 
 //classes
 let tamagotchi;
@@ -106,6 +106,7 @@ function preload() {
   soundFormats('mp3', 'ogg');
   backgroundSound = loadSound(`${host}assets/sounds/background.mp3`);
   buttonSound = loadSound(`${host}assets/sounds/sfxbutton.mp3`);
+  sleepSound = loadSound(`${host}assets/sounds/sleep.mp3`);
 }
 
 function setup() {
@@ -185,8 +186,8 @@ function draw() {
 }
 
 function mouseClicked() {
-  buttonSound.play();
   if (mouseX < width && mouseY < height) {
+    buttonSound.play();
     statusTamagotchiText.clear();
     bedCollider() ||
       fridgeCollider() ||
@@ -297,6 +298,8 @@ const bedCollider = () => {
     statusTamagotchiText.setMessage('Sleeping...');
     characterAnimation.stop(1);
     sleepingAnimation.play();
+    // backgroundSound.stop();
+    // sleepSound.play();
     return true;
   }
   tamagotchi.sleep(false);
