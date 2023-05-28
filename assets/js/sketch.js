@@ -103,7 +103,7 @@ function preload() {
   thristNotThirsty = loadImage(`${host}assets/images/thirst_notthirsty.png`);
 
   //sound
-  song = loadSound(`${host}assets/sounds/background.mp3`);
+  backgroundSound = loadSound(`${host}assets/sounds/background.mp3`);
 }
 
 function setup() {
@@ -122,7 +122,7 @@ function setup() {
   document.oncontextmenu = function () {
     return false;
   };
-  song.play();
+  backgroundSound.play();
 }
 
 function draw() {
