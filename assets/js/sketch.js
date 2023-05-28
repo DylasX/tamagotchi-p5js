@@ -27,7 +27,7 @@ let characterAnimation;
 let sleepingAnimation;
 
 //env vars
-const host = 'http://localhost:5500/';
+const host = 'https://dylasx.github.io/tamagotchi-p5js/';
 const width = 100;
 const height = 110;
 const interactivityThreshold = 30;
