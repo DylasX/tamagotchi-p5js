@@ -17,8 +17,8 @@ let room,
   thristVeryThristy,
   cursorPressed;
 let font;
-let backgroundSound, buttonSound, sleepSound;
-
+let backgroundSound, buttonSound, deadSound;
+let deadSoundPlayed = false;
 //classes
 let tamagotchi;
 let statusTamagotchiText;
@@ -106,7 +106,7 @@ function preload() {
   soundFormats('mp3', 'ogg');
   backgroundSound = loadSound(`${host}assets/sounds/background.mp3`);
   buttonSound = loadSound(`${host}assets/sounds/sfxbutton.mp3`);
-  sleepSound = loadSound(`${host}assets/sounds/sleep.mp3`);
+  deadSound = loadSound(`${host}assets/sounds/dead.mp3`);
 }
 
 function setup() {
@@ -125,9 +125,15 @@ function setup() {
   document.oncontextmenu = function () {
     return false;
   };
+
+  //audio things
   getAudioContext().suspend();
   userStartAudio();
+  backgroundSound.loop();
   backgroundSound.play();
+
+  //stats
+  decreseStats();
 }
 
 function draw() {
@@ -174,19 +180,41 @@ function draw() {
   }
 
   //tamagotchiStatusCheck
-  //if it's asleep
-  tamagotchi.checkStatus();
-  if (tamagotchi.energy <= 20) {
+  if (tamagotchi.isAlive) {
+    tamagotchi.checkStatus();
+    if (tamagotchi.energy && tamagotchi.energy <= 20) {
+      textSize(3);
+      textFont(font);
+      fill(255);
+      stroke(100);
+      text('Zzz...', tamagotchi.x + 5, tamagotchi.y - 10);
+    }
+  }
+
+  if (
+    !tamagotchi.energy &&
+    tamagotchi.needToDrink === 2 &&
+    tamagotchi.needToEat === 2
+  ) {
+    backgroundSound.stop();
+    characterAnimation.stop(1);
     textSize(3);
     textFont(font);
     fill(255);
     stroke(100);
-    text('Zzz...', tamagotchi.x + 5, tamagotchi.y - 10);
+    text('Dead', tamagotchi.x - 6, tamagotchi.y - 12);
+    sleepingAnimation.play();
+    tamagotchi.isAlive = false;
+  }
+
+  if (!tamagotchi.isAlive && !deadSoundPlayed) {
+    deadSound.play();
+    deadSoundPlayed = true;
   }
 }
 
 function mouseClicked() {
-  if (mouseX < width && mouseY < height) {
+  if (mouseX < width && mouseY < height && tamagotchi.isAlive) {
     buttonSound.play();
     statusTamagotchiText.clear();
     bedCollider() ||
@@ -298,8 +326,6 @@ const bedCollider = () => {
     statusTamagotchiText.setMessage('Sleeping...');
     characterAnimation.stop(1);
     sleepingAnimation.play();
-    // backgroundSound.stop();
-    // sleepSound.play();
     return true;
   }
   tamagotchi.sleep(false);
@@ -364,4 +390,18 @@ const toiletCollider = () => {
   characterAnimation.play();
   tamagotchi.poop(false);
   return false;
+};
+
+// status
+
+const decreseStats = () => {
+  setInterval(() => {
+    if (!tamagotchi.asleep) {
+      if (tamagotchi.energy) tamagotchi.energy -= 5;
+    }
+    if (tamagotchi.needToEat < 2 && tamagotchi.needToDrink < 2) {
+      tamagotchi.needToEat += 1;
+      tamagotchi.needToDrink += 1;
+    }
+  }, 10000);
 };

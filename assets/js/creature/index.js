@@ -5,6 +5,7 @@ class Character {
     this.drinking = false;
     this.pooping = false;
     this.asleep = false;
+    this.isAlive = true;
     this.name = name;
     this.needToPoop = 0;
     this.needToEat = 0;
@@ -14,7 +15,7 @@ class Character {
   }
 
   init() {
-    if (this.asleep) {
+    if (this.asleep || !this.isAlive) {
       animation(sleepingAnimation, this.x, this.y);
     } else {
       animation(characterAnimation, this.x, this.y);
@@ -28,18 +29,18 @@ class Character {
   checkStatus() {
     if (this.asleep && this.energy < 100) {
       this.energy += 1;
-      this.needToDrink += 1;
-      this.needToEat += 1;
-      this.needToPoop += 1;
     }
     if (this.eating) {
       if (this.needToEat) {
         this.needToEat -= 1;
-        this.needToPoop += 1;
+        if (this.needToPoop < 2) {
+          this.needToPoop += 1;
+        }
       }
       if (this.energy < 100) {
         this.energy += 1;
       }
+      this.eating = false;
     }
     if (this.drinking) {
       if (this.needToDrink) {
@@ -53,7 +54,6 @@ class Character {
     if (this.pooping) {
       if (this.needToPoop) {
         this.needToPoop -= 1;
-        this.needToEat += 1;
       }
       if (this.energy < 100) {
         this.energy += 1;
