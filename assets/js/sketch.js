@@ -17,6 +17,7 @@ let room,
   thristVeryThristy,
   cursorPressed;
 let font;
+let backgroundSound;
 
 //classes
 let tamagotchi;
@@ -100,6 +101,9 @@ function preload() {
   thristThristy = loadImage(`${host}assets/images/thirst_thirsty.png`);
   thristVeryThristy = loadImage(`${host}assets/images/thirst_verythirsty.png`);
   thristNotThirsty = loadImage(`${host}assets/images/thirst_notthirsty.png`);
+
+  //sound
+  song = loadSound(`${host}assets/sounds/background.mp3`);
 }
 
 function setup() {
@@ -118,6 +122,7 @@ function setup() {
   document.oncontextmenu = function () {
     return false;
   };
+  song.play();
 }
 
 function draw() {
