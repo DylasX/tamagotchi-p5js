@@ -213,19 +213,31 @@ function draw() {
   }
 }
 
-function mousePressed() {
-  if (mouseX < width && mouseY < height && tamagotchi.isAlive) {
-    buttonSound.play();
-    statusTamagotchiText.clear();
-    bedCollider() ||
-      fridgeCollider() ||
-      toiletCollider() ||
-      sinkCollider() ||
-      defaultPosition();
-  }
-}
+// function mousePressed() {
+//   if (mouseX < width && mouseY < height && tamagotchi.isAlive) {
+//     buttonSound.play();
+//     statusTamagotchiText.clear();
+//     bedCollider() ||
+//       fridgeCollider() ||
+//       toiletCollider() ||
+//       sinkCollider() ||
+//       defaultPosition();
+//   }
+// }
 
-function touchStarted() {
+// function touchStarted() {
+//   if (mouseX < width && mouseY < height && tamagotchi.isAlive) {
+//     buttonSound.play();
+//     statusTamagotchiText.clear();
+//     bedCollider() ||
+//       fridgeCollider() ||
+//       toiletCollider() ||
+//       sinkCollider() ||
+//       defaultPosition();
+//   }
+// }
+
+function touchEnded() {
   if (mouseX < width && mouseY < height && tamagotchi.isAlive) {
     buttonSound.play();
     statusTamagotchiText.clear();
