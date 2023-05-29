@@ -213,7 +213,19 @@ function draw() {
   }
 }
 
-function mouseClicked() {
+function mousePressed() {
+  if (mouseX < width && mouseY < height && tamagotchi.isAlive) {
+    buttonSound.play();
+    statusTamagotchiText.clear();
+    bedCollider() ||
+      fridgeCollider() ||
+      toiletCollider() ||
+      sinkCollider() ||
+      defaultPosition();
+  }
+}
+
+function touchStarted() {
   if (mouseX < width && mouseY < height && tamagotchi.isAlive) {
     buttonSound.play();
     statusTamagotchiText.clear();
