@@ -23,14 +23,14 @@
   <div id="container">
     <h1>Tamagotchi</h1>
     <div id="stats">
-      <p id="hunger">Hunger: 100</p>
-      <p id="happiness">Happiness: 100</p>
-      <p id="energy">Energy: 100</p>
+      <p id="hunger">Hunger: 0</p>
+      <p id="happiness">Happiness: 0</p>
+      <p id="energy">Energy: 0</p>
     </div>
     <div id="buttons">
       <button onclick="tamagotchi.feed()">Feed</button>
-      <button onclick="play()">Play</button>
-      <button onclick="sleep()">Sleep</button>
+      <button onclick="tamagotchi.play()">Play</button>
+      <button onclick="tamagotchi.sleep()">Sleep</button>
       <button onclick="location.href='/tamagotchi.html'" style="display: none;">Magic</button>
 
     </div>
@@ -38,6 +38,10 @@
   </div>
 
   <script>
+    const hungerDiv = document.querySelector('#hunger');
+    const happinessDiv = document.querySelector('#happiness');
+    const energyDiv = document.querySelector('#energy');
+
     function createTamagotchi(name) {
         let hunger = 0;
         let boredom = 0;
@@ -45,17 +49,16 @@
         let age = 0;
         let isAlive = true;
       
-        function checkStatus() {
-          hunger++;
-          boredom++;
-          sleepiness++;
-          age++;
-      
+        function checkStatus() {      
           if (hunger >= 10 || boredom >= 10 || sleepiness >= 10) {
             isAlive = false;
           }
       
-          console.log(name + " - Age: " + age);
+          console.log('hunger',hunger)
+          hungerDiv.textContent = "Hunger: "+ hunger
+          happinessDiv.textContent = "Boredom: "+ boredom
+          energyDiv.textContent = "Sleepiness: "+ sleepiness
+
           console.log("Hunger: " + hunger);
           console.log("Boredom: " + boredom);
           console.log("Sleepiness: " + sleepiness);
@@ -68,7 +71,7 @@
         return {
           feed: function () {
             if (isAlive) {
-              if (hunger > 0) {
+              if (hunger) {
                 hunger--;
               }
               console.log("Yum! " + name + " is eating.");
@@ -105,6 +108,11 @@
       }
       
       const tamagotchi = createTamagotchi("Tama");
+      setInterval(() => {
+        boredom++;
+        sleepiness++;
+        hunter++;
+      }, 4000);
   </script>
 </body>
 </html>
